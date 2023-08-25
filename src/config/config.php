@@ -9,7 +9,5 @@
 */
 
 return [
-    'logstash' => [
-        'environments' => env('LOGSTASH_ENVIRONMENTS', 'production')
-    ]
+
 ];
