@@ -4,6 +4,8 @@ namespace Ae3\LaravelLogsLayer\app\Traits;
 
 use Ae3\LaravelLogsLayer\app\DataTransferObjects\ExceptionContextDTO;
 use Ae3\LaravelLogsLayer\app\DataTransferObjects\LoggedExceptionDTO;
+use Ae3\LaravelLogsLayer\app\Enums\LogsLevelsEnum;
+use Ae3\LaravelLogsLayer\app\Enums\InfoLevelsEnum;
 use Ae3\LaravelLogsLayer\app\Exceptions\InvalidArgumentException;
 use Ae3\LaravelLogsLayer\app\Services\DailyLogService;
 use Ae3\LaravelLogsLayer\app\Services\DiscordLogService;
@@ -80,7 +82,7 @@ trait LogTrait
      */
     public function logInfo(string $message, array $customData = []): void
     {
-        $this->logWithServices('info', $message, $customData);
+        $this->logWithServices(LogsLevelsEnum::INFO, $message, $customData);
     }
 
     /**
@@ -90,7 +92,7 @@ trait LogTrait
      */
     public function logNotice(string $message, array $customData = []): void
     {
-        $this->logWithServices('notice', $message, $customData);
+        $this->logWithServices(LogsLevelsEnum::NOTICE, $message, $customData);
     }
 
     /**
@@ -100,7 +102,7 @@ trait LogTrait
      */
     public function logWarning(string $message, array $customData = []): void
     {
-        $this->logWithServices('warning', $message, $customData);
+        $this->logWithServices(LogsLevelsEnum::WARNING, $message, $customData);
     }
 
     /**
@@ -110,7 +112,7 @@ trait LogTrait
      */
     public function logDebug(string $message, array $customData = []): void
     {
-        $this->logWithServices('debug', $message, $customData);
+        $this->logWithServices(LogsLevelsEnum::DEBUG, $message, $customData);
     }
 
     /**
@@ -120,7 +122,7 @@ trait LogTrait
      */
     public function logAlert(string $message, array $customData = []): void
     {
-        $this->logWithServices('alert', $message, $customData);
+        $this->logWithServices(LogsLevelsEnum::ALERT, $message, $customData);
     }
 
     /**
@@ -131,11 +133,9 @@ trait LogTrait
      * @return LoggedExceptionDTO
      * @throws InvalidArgumentException
      */
-    public function logException(string $caller, Throwable $exception, string $log_level = 'error', array $customData = []): LoggedExceptionDTO
+    public function logException(string $caller, Throwable $exception, string $log_level = LogsLevelsEnum::ERROR, array $customData = []): LoggedExceptionDTO
     {
-        $validLogLevels = ['emergency', 'critical', 'error'];
-
-        if (!in_array($log_level, $validLogLevels, true)) {
+        if (!in_array($log_level, LogsLevelsEnum::allErrorLevels(), true)) {
             throw new InvalidArgumentException('Invalid log level specified');
         }
 
