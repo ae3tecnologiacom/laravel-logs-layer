@@ -9,5 +9,5 @@
 */
 
 return [
-    'sensitive_data' => env('LOGS_LAYER_SENSITIVE_DATA', 'password,password_confirmation,token,api_token,api_key,access_token'),
+    'sensitive_data' => env('LOGS_LAYER_SENSITIVE_DATA', 'password,password_confirmation,token,api_token,api_key,access_token,refresh_token,authorization_code,client_secret'),
 ];

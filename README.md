@@ -202,6 +202,27 @@ $this->logException(__METHOD__, $e, 'error', [
     'info2' => $info2
 ]);
 ```
+
+### Escondendo dados sensíveis em capturas do Guzzle
+
+Se você estiver usando o Guzzle para fazer requisições HTTP, é possível esconder dados sensíveis que podem estar presentes no corpo da requisição. Para isso, basta adicionar uma variável de ambiente chamada `LOGS_LAYER_SENSITIVE_DATA` com os nomes dos campos que você deseja esconder, separados por vírgula. Exemplo:
+
+```env
+LOGS_LAYER_SENSITIVE_DATA=card,credit_card
+```
+
+Por padrão, a biblioteca esconde os campos abaixo no corpo da requisição. Você pode adicionar outros campos que desejar.
+
+- password,
+- password_confirmation,
+- token,
+- api_token,
+- api_key,
+- access_token,
+- refresh_token,
+- authorization_code
+- client_secret
+
 ___
 
 [^1]: Para capturar o Guzzle request, é necessário utilizar o middleware [GuzzleLoggingMiddleware](src/app/Middlewares/GuzzleLoggingMiddleware.php) fornecido pela biblioteca. Segue abaixo um exemplo:
