@@ -32,6 +32,10 @@ class LogCaptureObserver
         ]);
     }
 
+    /**
+     * @param GuzzleEventCaptured $event
+     * @return void
+     */
     public static function captureGuzzleEvents(GuzzleEventCaptured $event)
     {
         $logDataContainer = app(LogDataContainer::class);
