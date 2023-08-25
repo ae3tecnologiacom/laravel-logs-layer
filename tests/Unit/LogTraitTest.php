@@ -33,7 +33,7 @@ class LogTraitTest extends TestCase
     public function testLogServiceReturnsLogstashServiceWhenDefaultIsLogstash(): void
     {
         config(['logging.default' => 'logstash']);
-        config(['logging.channels.stack.channels' => ['logstash']]);
+        config(['logging.channels.stack.channels' => []]);
 
         $traitInstance = $this->getMockForTrait(LogTrait::class);
         $traitInstance->initializeLogServices();
@@ -48,7 +48,7 @@ class LogTraitTest extends TestCase
     public function testLogServiceReturnsDailyLogServiceWhenDefaultIsDaily(): void
     {
         config(['logging.default' => 'daily']);
-        config(['logging.channels.stack.channels' => ['daily']]);
+        config(['logging.channels.stack.channels' => []]);
 
         $traitInstance = $this->getMockForTrait(LogTrait::class);
         $traitInstance->initializeLogServices();
@@ -60,10 +60,10 @@ class LogTraitTest extends TestCase
      * @return void
      * @throws ReflectionException
      */
-    public function testLogServiceReturnsDiscordLogServiceWhenDefaultIsDaily(): void
+    public function testLogServiceReturnsDiscordLogServiceWhenDefaultIsDiscord(): void
     {
         config(['logging.default' => 'discord']);
-        config(['logging.channels.stack.channels' => ['discord']]);
+        config(['logging.channels.stack.channels' => []]);
 
         $traitInstance = $this->getMockForTrait(LogTrait::class);
         $traitInstance->initializeLogServices();
@@ -78,7 +78,7 @@ class LogTraitTest extends TestCase
     public function testLogServiceReturnsEmailLogServiceWhenDefaultIsEmail(): void
     {
         config(['logging.default' => 'email']);
-        config(['logging.channels.stack.channels' => ['email']]);
+        config(['logging.channels.stack.channels' => []]);
 
         $traitInstance = $this->getMockForTrait(LogTrait::class);
         $traitInstance->initializeLogServices();
