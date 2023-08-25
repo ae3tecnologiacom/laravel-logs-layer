@@ -6,6 +6,7 @@ use Ae3\LaravelLogsLayer\Tests\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -32,7 +33,7 @@ class GuzzleLoggingMiddlewareTest extends TestCase
 
 
         $middleware = new GuzzleLoggingMiddleware();
-        $handlerStack = \GuzzleHttp\HandlerStack::create(new MockHandler([
+        $handlerStack = HandlerStack::create(new MockHandler([
             function ($request, $options) use ($eventMock) {
                 // Assert that the event is triggered with the correct arguments
                 $this->assertInstanceOf(RequestInterface::class, $request);
