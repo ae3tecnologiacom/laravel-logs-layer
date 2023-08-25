@@ -10,6 +10,7 @@ use Ae3\LaravelLogsLayer\app\Services\DiscordLogService;
 use Ae3\LaravelLogsLayer\app\Services\EmailLogService;
 use Ae3\LaravelLogsLayer\app\Services\LogstashLogService;
 use Ae3\LaravelLogsLayer\app\Traits\LogTrait;
+use Ae3\LaravelLogsLayer\Tests\Constraints\InstanceOfAtLeastOne;
 use Ae3\LaravelLogsLayer\Tests\TestCase;
 use Exception;
 use Mockery;
@@ -74,7 +75,7 @@ class LogTraitTest extends TestCase
      * @return void
      * @throws ReflectionException
      */
-    public function testLogServiceReturnsEmailLogServiceWhenDefaultIsDaily(): void
+    public function testLogServiceReturnsEmailLogServiceWhenDefaultIsEmail(): void
     {
         config(['logging.default' => 'email']);
         config(['logging.channels.stack.channels' => ['email']]);
@@ -84,6 +85,85 @@ class LogTraitTest extends TestCase
 
         $this->assertContainsOnlyInstancesOf(EmailLogService::class, $traitInstance->getLogServices());
     }
+
+    /**
+     * @return void
+     * @throws ReflectionException
+     */
+    public function testLogServiceReturnsAllLogServicesWhenDefaultIsStack(): void
+    {
+        config(['logging.default' => 'stack']);
+        config(['logging.channels.stack.channels' => ['logstash', 'daily', 'discord', 'email']]);
+
+        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance->initializeLogServices();
+
+        $this->assertContainsInstanceOf(LogstashLogService::class, $traitInstance->getLogServices());
+        $this->assertContainsInstanceOf(DailyLogService::class, $traitInstance->getLogServices());
+        $this->assertContainsInstanceOf(DiscordLogService::class, $traitInstance->getLogServices());
+        $this->assertContainsInstanceOf(EmailLogService::class, $traitInstance->getLogServices());
+    }
+
+    /**
+     * @return void
+     * @throws ReflectionException
+     */
+    public function testLogServiceReturnsOnlyLogstashLogServiceWhenStackContainsOnlyLogstash(): void
+    {
+        config(['logging.default' => 'stack']);
+        config(['logging.channels.stack.channels' => ['logstash']]);
+
+        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance->initializeLogServices();
+
+        $this->assertContainsOnlyInstancesOf(LogstashLogService::class, $traitInstance->getLogServices());
+    }
+
+    /**
+     * @return void
+     * @throws ReflectionException
+     */
+    public function testLogServiceReturnsOnlyDailyLogServiceWhenStackContainsOnlyDaily(): void
+    {
+        config(['logging.default' => 'stack']);
+        config(['logging.channels.stack.channels' => ['daily']]);
+
+        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance->initializeLogServices();
+
+        $this->assertContainsOnlyInstancesOf(DailyLogService::class, $traitInstance->getLogServices());
+    }
+
+    /**
+     * @return void
+     * @throws ReflectionException
+     */
+    public function testLogServiceReturnsOnlyDiscordLogServiceWhenStackContainsOnlyDiscord(): void
+    {
+        config(['logging.default' => 'stack']);
+        config(['logging.channels.stack.channels' => ['discord']]);
+
+        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance->initializeLogServices();
+
+        $this->assertContainsOnlyInstancesOf(DiscordLogService::class, $traitInstance->getLogServices());
+    }
+
+    /**
+     * @return void
+     * @throws ReflectionException
+     */
+    public function testLogServiceReturnsOnlyEmailLogServiceWhenStackContainsOnlyEmail(): void
+    {
+        config(['logging.default' => 'stack']);
+        config(['logging.channels.stack.channels' => ['email']]);
+
+        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance->initializeLogServices();
+
+        $this->assertContainsOnlyInstancesOf(EmailLogService::class, $traitInstance->getLogServices());
+    }
+
 
     /**
      * @return void
@@ -154,5 +234,20 @@ class LogTraitTest extends TestCase
 
         // Verificando se o conteúdo esperado está presente no arquivo
         $this->assertStringContainsString($expectedContent, $logContent);
+    }
+
+    /**
+     * @param string $className
+     * @param iterable $haystack
+     * @param string $message
+     * @return void
+     */
+    public static function assertContainsInstanceOf(string $className, iterable $haystack, string $message = ''): void
+    {
+        static::assertThat(
+            $haystack,
+            new InstanceOfAtLeastOne($className),
+            $message
+        );
     }
 }
