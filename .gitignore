@@ -1,0 +1,9 @@
+### Laravel template
+/vendor
+storage/*.key
+.env
+.idea
+.phpunit.result.cache
+.php-cs-fixer.cache
+tools/php-cs-fixer/vendor
+tools/php-cs-fixer/.php_cs.cache

@@ -1,0 +1,38 @@
+{
+  "name": "ae3/laravel-logs-layer",
+  "description": "Lib utilizada pelas aplicações laravel para padronização de logs.",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": "^7.4",
+    "laravel/framework": "5.8.*",
+    "hashids/hashids": "^4.1",
+    "ext-json": "*",
+    "spatie/data-transfer-object": "v2.x-dev",
+    "pusher/pusher-php-server": "~4.0",
+    "guzzlehttp/guzzle": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ae3\\LaravelLogsLayer\\": "src/",
+      "Ae3\\LaravelLogsLayer\\Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "José Tobias de Freitas Neto"
+    }
+  ],
+  "minimum-stability": "dev",
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Ae3\\LaravelLogsLayer\\app\\Providers\\LogsLayerServiceProvider"
+      ]
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.5",
+    "orchestra/testbench": "3.8.x-dev"
+  }
+}
