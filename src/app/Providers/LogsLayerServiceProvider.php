@@ -3,8 +3,6 @@
 namespace Ae3\LaravelLogsLayer\app\Providers;
 
 use Ae3\LaravelLogsLayer\app\Containers\LogDataContainer;
-use Ae3\LaravelLogsLayer\app\Events\GuzzleEventCaptured;
-use Ae3\LaravelLogsLayer\app\Listeners\GuzzleEventCapturedListener;
 use Ae3\LaravelLogsLayer\app\Observers\LogCaptureObserver;
 use Ae3\LaravelLogsLayer\app\Services\AbstractLogService;
 use Illuminate\Support\ServiceProvider;
