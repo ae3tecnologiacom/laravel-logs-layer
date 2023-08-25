@@ -53,10 +53,6 @@ trait LogTrait
         if ($defaultChannel === 'email' || in_array('email', $stackChannels, true)) {
             $this->logServices[] = app(EmailLogService::class);
         }
-
-        if (empty($this->logServices)) {
-            throw new RuntimeException('No matching log channel found.');
-        }
     }
 
     /**
