@@ -43,13 +43,36 @@ class LogCaptureObserver
     {
         $logDataContainer = app(LogDataContainer::class);
 
+        $requestBody = $event->request->getBody()->getContents();
+
         $logDataContainer->addCapturedHttpClientEvent([
             'request' => [
                 'method' => $event->request->getMethod(),
                 'uri' => $event->request->getUri(),
                 'headers' => $event->request->getHeaders(),
+                'body' =>self::hideSensitiveData($requestBody)
             ],
             'options' => $event->options,
         ]);
+    }
+
+    /**
+     * @param $content
+     * @return false|string
+     */
+    private static function hideSensitiveData($content)
+    {
+        $data = json_decode($content, true);
+
+        // Define an array of field names that contain sensitive information
+        $sensitiveFields = explode(',', config('laravel-logs-layer.sensitive_data'));
+
+        foreach ($sensitiveFields as $field) {
+            if (isset($data[$field])) {
+                $data[$field] = '*****';
+            }
+        }
+
+        return json_encode($data);
     }
 }
