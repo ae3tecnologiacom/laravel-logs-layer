@@ -36,7 +36,7 @@ class EmailLogger extends AbstractLogger
         $handler = new SwiftMailerHandler(
             $this->getMailer($config),
             $this->getMailerMessage($config),
-            Logger::DEBUG,
+            $config['level'] ?? Logger::DEBUG,
             $config['bubble'] ?? true
         );
 

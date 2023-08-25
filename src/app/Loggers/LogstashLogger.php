@@ -31,7 +31,11 @@ class LogstashLogger extends AbstractLogger
      */
     public function createLogger(array $config): Logger
     {
-        $handler = new SocketHandler("tcp://{$config['host']}:{$config['port']}");
+        $handler = new SocketHandler(
+            "tcp://{$config['host']}:{$config['port']}",
+            $config['level'] ?? Logger::DEBUG,
+            $config['bubble'] ?? true
+        );
         $handler->setFormatter(new LogstashFormatter(config('app.name')));
         return new Logger('logstash.main', [$handler]);
     }

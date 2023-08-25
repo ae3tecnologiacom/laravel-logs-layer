@@ -33,7 +33,13 @@ class DiscordLogger extends AbstractLogger
     public function createLogger(array $config): Logger
     {
         $log = new Logger('discord');
-        $log->pushHandler(new DiscordHandler($config['webhook'], Logger::DEBUG, $config['bubble'] ?? true));
+        $log->pushHandler(
+            new DiscordHandler(
+                $config['webhook'],
+                $config['level'] ?? Logger::DEBUG,
+                $config['bubble'] ?? true
+            )
+        );
 
         return $log;
     }
