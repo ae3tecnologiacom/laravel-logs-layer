@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Event;
 class LogCaptureObserver
 {
     /**
+     * Register listeners for the observer.
      * @return void
      */
     public static function registerListeners()
@@ -19,6 +20,7 @@ class LogCaptureObserver
     }
 
     /**
+     * Capture executed queries
      * @param QueryExecuted $query
      * @return void
      */
@@ -33,6 +35,7 @@ class LogCaptureObserver
     }
 
     /**
+     * Capture Guzzle events
      * @param GuzzleEventCaptured $event
      * @return void
      */

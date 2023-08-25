@@ -14,6 +14,7 @@ class LogDataContainer
     private array $capturedHttpClientEvents = [];
 
     /**
+     * Add captured query.
      * @param array $queryInfo
      * @return void
      */
@@ -23,6 +24,7 @@ class LogDataContainer
     }
 
     /**
+     * Add captured http client event.
      * @param array $httpClientEvent
      * @return void
      */
