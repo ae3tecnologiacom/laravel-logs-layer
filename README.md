@@ -192,7 +192,22 @@ Algumas informações são capturadas automaticamente pela biblioteca e incluíd
 - Usuário logado (se houver).
 - URL atual (se houver).
 - SQL executado (se houver).
-- Guzzle request (se houver) [^1].
+- Guzzle request (se houver).
+
+Para capturar o Guzzle request, é necessário utilizar o middleware [GuzzleLoggingMiddleware](src/app/Middlewares/GuzzleLoggingMiddleware.php) fornecido pela biblioteca. Segue abaixo um exemplo:
+
+```php
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\Client;
+use Ae3\LaravelLogsLayer\app\Middlewares\GuzzleLoggingMiddleware;
+
+$handlerStack = HandlerStack::create(new CurlHandler());
+$handlerStack->push(new GuzzleLoggingMiddleware(), 'logger');
+
+$clientOptions['handler'] = $handlerStack;
+$client = new Client($clientOptions);
+```
 
 Você também pode incluir informações que você julgar importantes para a análise do log. Para isso, utilize o parâmetro `$customData` dos métodos de log. Esse parâmetro deve ser um array associativo, onde a chave é o nome do campo e o valor é o valor do campo. Exemplo:
 
@@ -224,21 +239,6 @@ Por padrão, a biblioteca esconde os campos abaixo no corpo da requisição. Voc
 - client_secret
 
 ___
-
-[^1]: Para capturar o Guzzle request, é necessário utilizar o middleware [GuzzleLoggingMiddleware](src/app/Middlewares/GuzzleLoggingMiddleware.php) fornecido pela biblioteca. Segue abaixo um exemplo:
-
-```php
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Handler\CurlHandler;
-use GuzzleHttp\Client;
-use Ae3\LaravelLogsLayer\app\Middlewares\GuzzleLoggingMiddleware;
-
-$handlerStack = HandlerStack::create(new CurlHandler());
-$handlerStack->push(new GuzzleLoggingMiddleware(), 'logger');
-
-$clientOptions['handler'] = $handlerStack;
-$client = new Client($clientOptions);
-```
 
 **Contribuições e Licença**
 
