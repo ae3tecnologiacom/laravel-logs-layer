@@ -41,7 +41,9 @@ Redirecione logs para a classe LogstashLogger. Configuração em `config/logging
         'via' => \Ae3\LaravelLogsLayer\app\Loggers\LogstashLogger::class,
         'host' => env('LOGSTASH_HOST', 'host.docker.internal'),
         'port' => env('LOGSTASH_PORT', 5000),
-        'environments' => env('LOGSTASH_ENVIRONMENTS', 'production')
+        'environments' => env('LOGSTASH_ENVIRONMENTS', 'production'),
+        'bubble' => true,
+        'level' => Logger::DEBUG
     ],
 ],
 ```
@@ -66,7 +68,9 @@ Redirecione logs para a classe DiscordLogger. Configuração em `config/logging.
         'via' => \Ae3\LaravelLogsLayer\app\Loggers\DiscordLogger::class,
         'bubble' => false,
         'webhook' => env('DISCORD_LOG_CHANNEL_WEBHOOK'),
-        'environments' => env('DISCORD_LOG_CHANNEL_ENVIRONMENTS', 'production')
+        'environments' => env('DISCORD_LOG_CHANNEL_ENVIRONMENTS', 'production'),
+        'bubble' => true,
+        'level' => Logger::ERROR
     ],
 ],
 ```
@@ -88,7 +92,6 @@ Redirecione logs para a classe EmailLogger. Configuração em `config/logging.ph
     'email' => [
         'driver' => 'custom',
         'via' => \Ae3\LaravelLogsLayer\app\Loggers\EmailLogger::class,
-        'bubble' => false,
         'subject' => env('APP_NAME') . ' - Error Log',
         'host' => env('MAIL_HOST'),
         'port' => env('MAIL_PORT'),
@@ -98,7 +101,9 @@ Redirecione logs para a classe EmailLogger. Configuração em `config/logging.ph
         'password' => env('MAIL_PASSWORD'),
         'encryption' => env('MAIL_ENCRYPTION'),
         'debug' => env('MAIL_DEBUG', false),
-        'environments' => env('EMAIL_LOG_CHANNEL_ENVIRONMENTS', 'production')
+        'environments' => env('EMAIL_LOG_CHANNEL_ENVIRONMENTS', 'production'),
+        'bubble' => true,
+        'level' => Logger::CRITICAL,
     ],
 ],
 ```
