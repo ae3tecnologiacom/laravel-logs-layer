@@ -5,7 +5,6 @@ namespace Ae3\LaravelLogsLayer\app\Traits;
 use Ae3\LaravelLogsLayer\app\DataTransferObjects\ExceptionContextDTO;
 use Ae3\LaravelLogsLayer\app\DataTransferObjects\LoggedExceptionDTO;
 use Ae3\LaravelLogsLayer\app\Enums\LogsLevelsEnum;
-use Ae3\LaravelLogsLayer\app\Enums\InfoLevelsEnum;
 use Ae3\LaravelLogsLayer\app\Exceptions\InvalidArgumentException;
 use Ae3\LaravelLogsLayer\app\Services\DailyLogService;
 use Ae3\LaravelLogsLayer\app\Services\DiscordLogService;
