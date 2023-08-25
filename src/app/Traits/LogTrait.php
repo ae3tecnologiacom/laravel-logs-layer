@@ -12,7 +12,6 @@ use Ae3\LaravelLogsLayer\app\Services\EmailLogService;
 use Ae3\LaravelLogsLayer\app\Services\LogstashLogService;
 use Hashids\Hashids;
 use Illuminate\Support\Str;
-use RuntimeException;
 use Throwable;
 
 trait LogTrait
