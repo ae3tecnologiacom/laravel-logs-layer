@@ -204,6 +204,5 @@ abstract class AbstractLogService implements Contracts\LogServiceInterface
     protected function log(string $level, string $message, array $data): void
     {
         Log::channel($this->getLogChannel())->$level($message, $data);
-        $this->logDataContainer->clearCapturedData();
     }
 }
