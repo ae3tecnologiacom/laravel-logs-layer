@@ -135,6 +135,21 @@ EMAIL_LOG_CHANNEL_ENVIRONMENTS=ambientes_ativacao
 ```
 No exemplo acima, os logs serão enviados para os canais de e-mail, Discord e Logstash.
 
+Você também pode adicionar uma variável de ambiente chamada LOG_STACK_CHANNELS com os nomes dos canais que você deseja ativar, separados por vírgula. Exemplo:
+
+```php
+'stack' => [
+    'driver' => 'stack',
+    'channels' => explode(',', env('LOG_STACK_CHANNELS', 'daily')),
+    'ignore_exceptions' => false,
+]
+```
+
+```env
+LOG_STACK_CHANNELS=logstash,email
+```
+
+o exemplo acima, os logs serão enviados para os canais **logstash** e **email** que estão no .env.
 
 ### Uso
 
