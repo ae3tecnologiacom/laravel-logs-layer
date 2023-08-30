@@ -23,7 +23,7 @@
       "name": "José Tobias de Freitas Neto"
     }
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "extra": {
     "laravel": {
       "providers": [
