@@ -149,7 +149,7 @@ Você também pode adicionar uma variável de ambiente chamada LOG_STACK_CHANNEL
 LOG_STACK_CHANNELS=logstash,email
 ```
 
-o exemplo acima, os logs serão enviados para os canais **logstash** e **email** que estão no .env.
+O exemplo acima, os logs serão enviados para os canais **logstash** e **email** que estão no .env.
 
 ### Uso
 
