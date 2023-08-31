@@ -95,7 +95,7 @@ Redirecione logs para a classe EmailLogger. Configuração em `config/logging.ph
         'subject' => env('APP_NAME') . ' - Error Log',
         'host' => env('MAIL_HOST'),
         'port' => env('MAIL_PORT'),
-        'from' => env('MAIL_FROM'),
+        'from' => env('MAIL_FROM_ADDRESS'),
         'to' => env('EMAIL_LOG_CHANNEL_TO'),
         'email' => env('MAIL_USERNAME'),
         'password' => env('MAIL_PASSWORD'),
@@ -114,7 +114,7 @@ Variáveis de Ambiente necessárias:
 APP_NAME=nome_aplicacao
 MAIL_HOST=host_email
 MAIL_PORT=porta_email
-MAIL_FROM=remetente_email
+MAIL_FROM_ADDRESS=remetente_email
 MAIL_USERNAME=usuario_email
 MAIL_PASSWORD=senha_email
 MAIL_ENCRYPTION=criptografia_email
