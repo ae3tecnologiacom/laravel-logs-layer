@@ -3,8 +3,10 @@
 namespace Ae3\LaravelLogsLayer\app\Providers;
 
 use Ae3\LaravelLogsLayer\app\Containers\LogDataContainer;
+use Ae3\LaravelLogsLayer\app\Exceptions\CustomExceptionHandler;
 use Ae3\LaravelLogsLayer\app\Observers\LogCaptureObserver;
 use Ae3\LaravelLogsLayer\app\Services\AbstractLogService;
+use Illuminate\Contracts\Debug\ExceptionHandler as ExceptionHandlerContract;
 use Illuminate\Support\ServiceProvider;
 
 class LogsLayerServiceProvider extends ServiceProvider
@@ -24,6 +26,8 @@ class LogsLayerServiceProvider extends ServiceProvider
         });
 
         LogCaptureObserver::registerListeners();
+
+        $this->app->singleton(ExceptionHandlerContract::class, CustomExceptionHandler::class);
     }
 
     /**
