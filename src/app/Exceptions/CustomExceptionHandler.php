@@ -6,6 +6,7 @@ use Ae3\LaravelLogsLayer\app\Enums\LogsLevelsEnum;
 use Exception;
 use Ae3\LaravelLogsLayer\app\Traits\LogTrait;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -41,9 +42,9 @@ class CustomExceptionHandler extends ExceptionHandler
      *
      * @param  Request  $request
      * @param Exception $exception
-     * @return Response
+     * @return JsonResponse|Response|\Symfony\Component\HttpFoundation\Response
      */
-    public function render($request, Exception $exception): Response
+    public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
     }
