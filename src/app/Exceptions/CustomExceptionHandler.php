@@ -3,7 +3,7 @@
 namespace Ae3\LaravelLogsLayer\app\Exceptions;
 
 use Ae3\LaravelLogsLayer\app\Enums\LogsLevelsEnum;
-use Exception;
+use Throwable;
 use Ae3\LaravelLogsLayer\app\Traits\LogTrait;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
@@ -27,11 +27,11 @@ class CustomExceptionHandler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param Exception $exception
+     * @param Throwable $exception
      * @return void
      * @throws InvalidArgumentException
      */
-    public function report(Exception $exception)
+    public function report(Throwable $exception)
     {
         $level = $this->getExceptionLevel($exception);
         $this->logException(__METHOD__, $exception, $level);
@@ -41,19 +41,19 @@ class CustomExceptionHandler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  Request  $request
-     * @param Exception $exception
+     * @param Throwable $exception
      * @return JsonResponse|Response|\Symfony\Component\HttpFoundation\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
     }
 
     /**
-     * @param Exception $exception
+     * @param Throwable $exception
      * @return string
      */
-    protected function getExceptionLevel(Exception $exception): string
+    protected function getExceptionLevel(Throwable $exception): string
     {
         if (method_exists($exception, 'getLevel')) {
             return mb_strtolower($exception->getLevel());
