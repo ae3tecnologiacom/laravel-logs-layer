@@ -9,8 +9,8 @@
     "hashids/hashids": ">=4.1",
     "ext-json": "*",
     "spatie/data-transfer-object": ">=2.8",
-    "pusher/pusher-php-server": "~4.0",
-    "guzzlehttp/guzzle": "^7.0"
+    "pusher/pusher-php-server": ">=4.0",
+    "guzzlehttp/guzzle": ">=7.0"
   },
   "autoload": {
     "psr-4": {
