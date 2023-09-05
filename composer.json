@@ -6,7 +6,7 @@
   "require": {
     "php": ">=7.4",
     "laravel/framework": ">=5.8",
-    "hashids/hashids": "^4.1",
+    "hashids/hashids": ">=4.1",
     "ext-json": "*",
     "spatie/data-transfer-object": "^2.8",
     "pusher/pusher-php-server": "~4.0",
