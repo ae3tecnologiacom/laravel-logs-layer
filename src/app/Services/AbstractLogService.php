@@ -169,6 +169,7 @@ abstract class AbstractLogService implements Contracts\LogServiceInterface
             'custom_data' => $context['custom_data'],
             'current_url' => $context['current_url'],
             'current_user' => $this->asPrettyJson($context['current_user']),
+            'tags' => $context['tags'],
             'queries' => $this->asPrettyJson($this->logDataContainer->getCapturedQueries()),
             'guzzle' => $this->asPrettyJson($this->logDataContainer->getCapturedHttpClientEvents()),
         ];

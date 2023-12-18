@@ -69,6 +69,7 @@ trait LogTrait
                 'custom_data' => $customData,
                 'current_url' => request()->fullUrl(),
                 'current_user' => auth()->user(),
+                'tags' => [],
             ]);
         }
     }
