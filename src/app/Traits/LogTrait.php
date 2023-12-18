@@ -65,7 +65,11 @@ trait LogTrait
         $this->initializeLogServices();
 
         foreach ($this->logServices as $logService) {
-            $logService->$method($message, $customData);
+            $logService->$method($message, [
+                'custom_data' => $customData,
+                'current_url' => request()->fullUrl(),
+                'current_user' => auth()->user(),
+            ]);
         }
     }
 
