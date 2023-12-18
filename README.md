@@ -44,6 +44,7 @@ Redirecione logs para a classe LogstashLogger. Configuração em `config/logging
         'environments' => env('LOGSTASH_ENVIRONMENTS', 'production'),
         'bubble' => true,
         'level' => Logger::DEBUG
+        // 'level' => \Monolog\Level::Debug //Para versões mais recentes
     ],
 ],
 ```
