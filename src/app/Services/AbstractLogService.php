@@ -209,10 +209,6 @@ abstract class AbstractLogService implements Contracts\LogServiceInterface
      */
     protected function log(string $level, string $message, array $data): void
     {
-        if (config('laravel-logs-layer.queue.enabled', false)){
-            Log::channel($this->getLogChannel())->$level($message, $data);
-        }
-
-        dispatch(new ProcessLog($this->getLogChannel(), $level, $message, $data));
+        Log::channel($this->getLogChannel())->$level($message, $data);
     }
 }
