@@ -4,6 +4,7 @@ namespace Ae3\LaravelLogsLayer\app\Services;
 
 use Ae3\LaravelLogsLayer\app\Containers\LogDataContainer;
 use Ae3\LaravelLogsLayer\app\DataTransferObjects\ExceptionContextDTO;
+use Ae3\LaravelLogsLayer\app\Jobs\ProcessLog;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -208,6 +209,10 @@ abstract class AbstractLogService implements Contracts\LogServiceInterface
      */
     protected function log(string $level, string $message, array $data): void
     {
-        Log::channel($this->getLogChannel())->$level($message, $data);
+        if (config('laravel-logs-layer.queue.enabled', false)){
+            Log::channel($this->getLogChannel())->$level($message, $data);
+        }
+
+        dispatch(new ProcessLog($this->getLogChannel(), $level, $message, $data));
     }
 }
