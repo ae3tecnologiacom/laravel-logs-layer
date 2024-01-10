@@ -10,6 +10,7 @@ use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Monolog\LogRecord;
 
 class DiscordHandler extends AbstractProcessingHandler
 {
@@ -35,7 +36,7 @@ class DiscordHandler extends AbstractProcessingHandler
      * @param int $level
      * @param bool $bubble
      */
-    public function __construct(string $webhook, int $level = Logger::ERROR, bool $bubble = true)
+    public function __construct(string $webhook, \Monolog\Level $level = \Monolog\Level::ERROR, bool $bubble = true)
     {
         $this->webhook = $webhook;
         $this->client = new Client();
@@ -44,18 +45,18 @@ class DiscordHandler extends AbstractProcessingHandler
     }
 
     /**
-     * @param array $record
+     * @param LogRecord $record
      * @return void
      * @throws GuzzleException
      */
-    protected function write(array $record): void
+    protected function write(LogRecord $record): void
     {
         if ($this->rateLimitRemaining === 0 && $this->rateLimitReset !== null) {
             $this->waitUntil($this->rateLimitReset);
         }
 
         try {
-            $response = $this->send($record);
+            $response = $this->send($record->toArray());
         } catch (ClientException $exception) {
             $response = $exception->getResponse();
 
@@ -66,7 +67,7 @@ class DiscordHandler extends AbstractProcessingHandler
             $retryAfter = $response->getHeaderLine('Retry-After');
             $this->wait((int)$retryAfter);
 
-            $this->send($record);
+            $this->send($record->toArray());
         }
 
         $this->rateLimitRemaining = (int)$response->getHeaderLine('X-RateLimit-Remaining');
