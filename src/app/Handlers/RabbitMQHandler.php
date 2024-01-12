@@ -4,6 +4,7 @@ namespace Ae3\LaravelLogsLayer\app\Handlers;
 
 use Exception;
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\LogRecord;
 use PhpAmqpLib\Channel\AbstractChannel;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -49,12 +50,12 @@ class RabbitMQHandler extends AbstractProcessingHandler
     }
 
     /**
-     * @param array $record
+     * @param LogRecord $record
      * @return void
      */
-    public function write(array $record): void
+    public function write(LogRecord $record): void
     {
-        $data = json_encode($record);
+        $data = json_encode($record->toArray());
         $msg = new AMQPMessage($data, [
             'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT
         ]);
