@@ -10,7 +10,8 @@
     "ext-json": "*",
     "spatie/data-transfer-object": ">=2.8",
     "pusher/pusher-php-server": ">=4.0",
-    "guzzlehttp/guzzle": ">=7.0"
+    "guzzlehttp/guzzle": ">=7.0",
+    "php-amqplib/php-amqplib": "*"
   },
   "autoload": {
     "psr-4": {
