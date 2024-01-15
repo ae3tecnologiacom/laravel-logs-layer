@@ -10,6 +10,7 @@ use Ae3\LaravelLogsLayer\app\Services\DailyLogService;
 use Ae3\LaravelLogsLayer\app\Services\DiscordLogService;
 use Ae3\LaravelLogsLayer\app\Services\EmailLogService;
 use Ae3\LaravelLogsLayer\app\Services\LogstashLogService;
+use Ae3\LaravelLogsLayer\app\Services\RabbitMQLogService;
 use Hashids\Hashids;
 use Illuminate\Support\Str;
 use Throwable;
@@ -51,6 +52,10 @@ trait LogTrait
 
         if ($defaultChannel === 'email' || in_array('email', $stackChannels, true)) {
             $this->logServices[] = app(EmailLogService::class);
+        }
+
+        if ($defaultChannel === 'rabbitmq' || in_array('rabbitmq', $stackChannels, true)) {
+            $this->logServices[] = app(RabbitMQLogService::class);
         }
     }
 
