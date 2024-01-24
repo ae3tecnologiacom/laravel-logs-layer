@@ -47,6 +47,10 @@ class RabbitMQHandler extends AbstractProcessingHandler
         $this->exchange = $exchange;
         $this->routingKey = $routingKey;
         $this->channel->exchange_declare($exchange, 'direct', false, true, false);
+
+        $queueName = config('logging.channels.rabbitmq.queue', 'logstash_queue');
+        $this->channel->queue_declare($queueName, false, true, false, false);
+        $this->channel->queue_bind($queueName, $this->exchange, $this->routingKey);
     }
 
     /**
