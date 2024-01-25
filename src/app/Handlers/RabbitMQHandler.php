@@ -77,7 +77,7 @@ class RabbitMQHandler extends AbstractProcessingHandler
     {
         $data = json_encode($record);
         $msg = new AMQPMessage($data, [
-            'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT
+            'delivery_mode' => 2
         ]);
 
         $this->channel->basic_publish($msg, $this->exchange, $this->routingKey);
