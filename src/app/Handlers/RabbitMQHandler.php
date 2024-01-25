@@ -32,7 +32,7 @@ class RabbitMQHandler extends AbstractProcessingHandler
     /**
      * @throws Exception
      */
-    public function __construct($exchange = 'logs', $routingKey = 'log', $level = \Monolog\Level::ERROR, $bubble = true)
+    public function __construct($exchange = 'logs', $routingKey = 'log', $level = 400, $bubble = true)
     {
         parent::__construct($level, $bubble);
 
@@ -54,12 +54,28 @@ class RabbitMQHandler extends AbstractProcessingHandler
     }
 
     /**
-     * @param LogRecord $record
+     * @param mixed $record
      * @return void
      */
-    public function write(LogRecord $record): void
+    public function write($record): void
     {
-        $data = json_encode($record->toArray());
+        if (is_array($record)) {
+            // Implementação para Monolog 1.x
+            $this->processRecord($record);
+        }elseif (class_exists(LogRecord::class) && $record instanceof LogRecord) {
+            // Implementação para Monolog 2.x
+            $arrayRecord = $record->toArray();
+            $this->processRecord($arrayRecord);
+        }
+    }
+
+    /**
+     * @param array $record
+     * @return void
+     */
+    protected function processRecord(array $record)
+    {
+        $data = json_encode($record);
         $msg = new AMQPMessage($data, [
             'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT
         ]);

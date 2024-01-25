@@ -7,7 +7,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Monolog\LogRecord;
@@ -33,10 +32,10 @@ class DiscordHandler extends AbstractProcessingHandler
 
     /**
      * @param string $webhook
-     * @param int $level
+     * @param mixed $level
      * @param bool $bubble
      */
-    public function __construct(string $webhook, \Monolog\Level $level = \Monolog\Level::ERROR, bool $bubble = true)
+    public function __construct(string $webhook, $level = 400, bool $bubble = true)
     {
         $this->webhook = $webhook;
         $this->client = new Client();
@@ -45,18 +44,35 @@ class DiscordHandler extends AbstractProcessingHandler
     }
 
     /**
-     * @param LogRecord $record
+     * @param mixed $record
      * @return void
      * @throws GuzzleException
      */
-    protected function write(LogRecord $record): void
+    protected function write($record): void
+    {
+        if (is_array($record)) {
+            // Implementação para Monolog 1.x
+            $this->processRecord($record);
+        }elseif (class_exists(LogRecord::class) && $record instanceof LogRecord) {
+            // Implementação para Monolog 2.x
+            $arrayRecord = $record->toArray();
+            $this->processRecord($arrayRecord);
+        }
+    }
+
+    /**
+     * @param array $record
+     * @return void
+     * @throws GuzzleException
+     */
+    protected function processRecord(array $record)
     {
         if ($this->rateLimitRemaining === 0 && $this->rateLimitReset !== null) {
             $this->waitUntil($this->rateLimitReset);
         }
 
         try {
-            $response = $this->send($record->toArray());
+            $response = $this->send($record);
         } catch (ClientException $exception) {
             $response = $exception->getResponse();
 
@@ -67,7 +83,7 @@ class DiscordHandler extends AbstractProcessingHandler
             $retryAfter = $response->getHeaderLine('Retry-After');
             $this->wait((int)$retryAfter);
 
-            $this->send($record->toArray());
+            $this->send($record);
         }
 
         $this->rateLimitRemaining = (int)$response->getHeaderLine('X-RateLimit-Remaining');
