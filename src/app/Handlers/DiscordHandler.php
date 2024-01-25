@@ -52,11 +52,11 @@ class DiscordHandler extends AbstractProcessingHandler
     {
         if (is_array($record)) {
             // Implementação para Monolog 1.x
-            $this->processRecord($record);
+            $this->recordHandler($record);
         }elseif (class_exists(LogRecord::class) && $record instanceof LogRecord) {
             // Implementação para Monolog 2.x
             $arrayRecord = $record->toArray();
-            $this->processRecord($arrayRecord);
+            $this->recordHandler($arrayRecord);
         }
     }
 
@@ -65,7 +65,7 @@ class DiscordHandler extends AbstractProcessingHandler
      * @return void
      * @throws GuzzleException
      */
-    protected function processRecord(array $record)
+    protected function recordHandler(array $record)
     {
         if ($this->rateLimitRemaining === 0 && $this->rateLimitReset !== null) {
             $this->waitUntil($this->rateLimitReset);

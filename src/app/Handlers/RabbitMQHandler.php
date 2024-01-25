@@ -61,11 +61,11 @@ class RabbitMQHandler extends AbstractProcessingHandler
     {
         if (is_array($record)) {
             // Implementação para Monolog 1.x
-            $this->processRecord($record);
+            $this->recordHandler($record);
         }elseif (class_exists(LogRecord::class) && $record instanceof LogRecord) {
             // Implementação para Monolog 2.x
             $arrayRecord = $record->toArray();
-            $this->processRecord($arrayRecord);
+            $this->recordHandler($arrayRecord);
         }
     }
 
@@ -73,7 +73,7 @@ class RabbitMQHandler extends AbstractProcessingHandler
      * @param array $record
      * @return void
      */
-    protected function processRecord(array $record)
+    protected function recordHandler(array $record)
     {
         $data = json_encode($record);
         $msg = new AMQPMessage($data, [
