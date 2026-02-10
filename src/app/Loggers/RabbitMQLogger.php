@@ -5,6 +5,7 @@ namespace Ae3\LaravelLogsLayer\app\Loggers;
 use Ae3\LaravelLogsLayer\app\Exceptions\MissingConfigurationException;
 use Ae3\LaravelLogsLayer\app\Handlers\RabbitMQHandler;
 use Exception;
+use Monolog\Level;
 use Monolog\Logger;
 
 class RabbitMQLogger extends AbstractLogger
@@ -33,7 +34,7 @@ class RabbitMQLogger extends AbstractLogger
         $handler = new RabbitMQHandler(
             $config['exchange'] ?? 'logs',
             $config['routing_key'] ?? 'log',
-            $config['level'] ?? Logger::DEBUG,
+            $config['level'] ?? Level::Debug,
             $config['bubble'] ?? true
         );
 

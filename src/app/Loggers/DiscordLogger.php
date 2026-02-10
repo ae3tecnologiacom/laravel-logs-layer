@@ -6,6 +6,7 @@ use Ae3\LaravelLogsLayer\app\Exceptions\MissingConfigurationException;
 use Ae3\LaravelLogsLayer\app\Handlers\DiscordHandler;
 use Ae3\LaravelLogsLayer\app\Loggers\Contracts\LoggerContract;
 use Illuminate\Support\Facades\App;
+use Monolog\Level;
 use Monolog\Logger;
 
 class DiscordLogger extends AbstractLogger
@@ -36,7 +37,7 @@ class DiscordLogger extends AbstractLogger
         $log->pushHandler(
             new DiscordHandler(
                 $config['webhook'],
-                $config['level'] ?? Logger::DEBUG,
+                $config['level'] ?? Level::Debug,
                 $config['bubble'] ?? true
             )
         );

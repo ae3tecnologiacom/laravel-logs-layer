@@ -5,6 +5,7 @@ namespace Ae3\LaravelLogsLayer\app\Loggers;
 use Ae3\LaravelLogsLayer\app\Exceptions\MissingConfigurationException;
 use Monolog\Formatter\LogstashFormatter;
 use Monolog\Handler\SocketHandler;
+use Monolog\Level;
 use Monolog\Logger;
 
 class LogstashLogger extends AbstractLogger
@@ -33,7 +34,7 @@ class LogstashLogger extends AbstractLogger
     {
         $handler = new SocketHandler(
             "tcp://{$config['host']}:{$config['port']}",
-            $config['level'] ?? Logger::DEBUG,
+            $config['level'] ?? Level::Debug,
             $config['bubble'] ?? true
         );
         $handler->setFormatter(new LogstashFormatter(config('app.name')));

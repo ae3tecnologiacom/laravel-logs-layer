@@ -5,6 +5,7 @@ namespace Ae3\LaravelLogsLayer\app\Loggers;
 use Ae3\LaravelLogsLayer\app\Exceptions\MissingConfigurationException;
 use Monolog\Formatter\HtmlFormatter;
 use Monolog\Handler\SwiftMailerHandler;
+use Monolog\Level;
 use Monolog\Logger;
 use Swift_Mailer;
 use Swift_Message;
@@ -36,7 +37,7 @@ class EmailLogger extends AbstractLogger
         $handler = new SwiftMailerHandler(
             $this->getMailer($config),
             $this->getMailerMessage($config),
-            $config['level'] ?? Logger::DEBUG,
+            $config['level'] ?? Level::Debug,
             $config['bubble'] ?? true
         );
 

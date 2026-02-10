@@ -31,7 +31,7 @@ class CustomExceptionHandler extends ExceptionHandler
      * @return void
      * @throws InvalidArgumentException
      */
-    public function report(Throwable $exception)
+    public function report(Throwable $exception): void
     {
         $level = $this->getExceptionLevel($exception);
         $this->logException(__METHOD__, $exception, $level);
