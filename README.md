@@ -134,6 +134,48 @@ EMAIL_LOG_CHANNEL_TO=destinatario_email
 EMAIL_LOG_CHANNEL_ENVIRONMENTS=ambientes_ativacao
 ```
 ---
+**RabbitMQ**
+
+Redirecione logs para a classe RabbitMQLogger. Configuração em `config/logging.php`:
+
+```php
+'channels' => [
+    // Outros canais,
+    'rabbitmq' => [
+        'driver' => 'custom',
+        'via' => \Ae3\LaravelLogsLayer\app\Loggers\RabbitMQLogger::class,
+        'host' => env('RABBITMQ_HOST', 'localhost'),
+        'port' => env('RABBITMQ_PORT', 5672),
+        'username' => env('RABBITMQ_USERNAME', 'guest'),
+        'password' => env('RABBITMQ_PASSWORD', 'guest'),
+        'vhost' => env('RABBITMQ_VHOST', '/'),
+        'exchange' => env('RABBITMQ_EXCHANGE', 'logs'),
+        'routing_key' => env('RABBITMQ_ROUTING_KEY', 'log'),
+        'queue' => env('RABBITMQ_QUEUE', 'logstash_queue'),
+        'environments' => env('RABBITMQ_ENVIRONMENTS', 'production'),
+        'bubble' => true,
+        'level' => \Monolog\Level::Debug,
+    ],
+],
+```
+
+Variáveis de Ambiente necessárias:
+
+```env
+RABBITMQ_HOST=host_rabbitmq
+RABBITMQ_PORT=porta_rabbitmq
+RABBITMQ_USERNAME=usuario_rabbitmq
+RABBITMQ_PASSWORD=senha_rabbitmq
+RABBITMQ_VHOST=/meu_vhost
+RABBITMQ_EXCHANGE=logs
+RABBITMQ_ROUTING_KEY=log
+RABBITMQ_QUEUE=logstash_queue
+RABBITMQ_ENVIRONMENTS=ambientes_ativacao
+```
+
+**Nota sobre Virtual Host (vhost):** O parâmetro `vhost` permite especificar o virtual host do RabbitMQ. O valor padrão é `/` (root). Certifique-se de que o usuário configurado tenha permissões no vhost especificado.
+
+---
 
 É possível habilitar mais de um canal para envio de logs. Para isso, basta adicionar à entrada channels de stack, os canais desejados em `config/logging.php`:
 
