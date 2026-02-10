@@ -2,6 +2,17 @@
 
 A biblioteca LaravelLogsLayer permite capturar logs de erros em aplicações Laravel e redirecioná-los para diversos canais, como Discord, E-mail, Logstash e Daily. Essa funcionalidade ajuda no monitoramento e notificação imediata de problemas em ambientes de produção.
 
+### Requisitos e Versionamento
+
+Esta biblioteca possui duas linhas de versão principais:
+
+| Versão | PHP | Laravel | Status |
+|--------|-----|---------|--------|
+| **1.x** | ^8.1 | ^10.0 \| ^11.0 | ✅ Ativa - Recomendada |
+| **0.x** | ^7.4 | ^5.8 \| ^6.0 \| ^7.0 \| ^8.0 \| ^9.0 | 🧹 Manutenção - Legado |
+
+**Nota:** A versão 1.x usa o enum `Monolog\Level` para níveis de log (ex: `Level::Debug`), enquanto a versão 0.x usa as constantes `Logger::DEBUG`. Certifique-se de usar a sintaxe correta para sua versão.
+
 ### Instalação
 
 Para começar a usar esta lib, siga estas etapas:
@@ -43,8 +54,7 @@ Redirecione logs para a classe LogstashLogger. Configuração em `config/logging
         'port' => env('LOGSTASH_PORT', 5000),
         'environments' => env('LOGSTASH_ENVIRONMENTS', 'production'),
         'bubble' => true,
-        'level' => Logger::DEBUG
-        // 'level' => \Monolog\Level::Debug //Para versões mais recentes
+        'level' => \Monolog\Level::Debug
     ],
 ],
 ```
@@ -71,7 +81,7 @@ Redirecione logs para a classe DiscordLogger. Configuração em `config/logging.
         'webhook' => env('DISCORD_LOG_CHANNEL_WEBHOOK'),
         'environments' => env('DISCORD_LOG_CHANNEL_ENVIRONMENTS', 'production'),
         'bubble' => true,
-        'level' => Logger::ERROR
+        'level' => \Monolog\Level::Error
     ],
 ],
 ```
@@ -104,7 +114,7 @@ Redirecione logs para a classe EmailLogger. Configuração em `config/logging.ph
         'debug' => env('MAIL_DEBUG', false),
         'environments' => env('EMAIL_LOG_CHANNEL_ENVIRONMENTS', 'production'),
         'bubble' => true,
-        'level' => Logger::CRITICAL,
+        'level' => \Monolog\Level::Critical,
     ],
 ],
 ```
@@ -200,6 +210,18 @@ A trait `LogTrait` fornece uma série de outros métodos para simplificar a capt
 - `logWarning(string $message, array $customData = [])`: Captura um log de advertência.
 - `logDebug(string $message, array $customData = [])`: Captura um log de depuração.
 - `logAlert(string $message, array $customData = [])`: Captura um log de alerta.
+
+### Configuração do IP do Servidor
+
+A partir da versão 0.2.6/1.0.0, é possível configurar o IP do servidor que está disparando os logs. Isso é útil para identificar a origem dos logs em ambientes distribuídos.
+
+Adicione no seu arquivo `.env`:
+
+```env
+SERVER_IP=192.168.1.100
+```
+
+Se não configurado, o valor padrão será `127.0.0.1`.
 
 ### Dica importante
 
