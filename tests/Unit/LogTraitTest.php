@@ -19,6 +19,57 @@ use ReflectionException;
 class LogTraitTest extends TestCase
 {
     /**
+     * Cria uma instância concreta do trait para testes
+     * Substitui getMockForTrait() que está deprecado no PHPUnit 10+
+     */
+    private function createTraitInstance(): object
+    {
+        return new class {
+            use LogTrait;
+
+            public function initializeLogServices(): void
+            {
+                parent::initializeLogServices();
+            }
+
+            public function getLogServices(): array
+            {
+                return $this->logServices;
+            }
+
+            public function logInfo(string $message, array $customData = []): void
+            {
+                parent::logInfo($message, $customData);
+            }
+
+            public function logNotice(string $message, array $customData = []): void
+            {
+                parent::logNotice($message, $customData);
+            }
+
+            public function logWarning(string $message, array $customData = []): void
+            {
+                parent::logWarning($message, $customData);
+            }
+
+            public function logDebug(string $message, array $customData = []): void
+            {
+                parent::logDebug($message, $customData);
+            }
+
+            public function logAlert(string $message, array $customData = []): void
+            {
+                parent::logAlert($message, $customData);
+            }
+
+            public function logException(string $caller, \Throwable $exception, string $log_level = 'error', array $customData = []): \Ae3\LaravelLogsLayer\app\DataTransferObjects\LoggedExceptionDTO
+            {
+                return parent::logException($caller, $exception, $log_level, $customData);
+            }
+        };
+    }
+
+    /**
      * @return void
      */
     public function tearDown(): void
@@ -35,7 +86,7 @@ class LogTraitTest extends TestCase
         config(['logging.default' => 'logstash']);
         config(['logging.channels.stack.channels' => []]);
 
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
         $traitInstance->initializeLogServices();
 
         $this->assertContainsOnlyInstancesOf(LogstashLogService::class, $traitInstance->getLogServices());
@@ -50,7 +101,7 @@ class LogTraitTest extends TestCase
         config(['logging.default' => 'daily']);
         config(['logging.channels.stack.channels' => []]);
 
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
         $traitInstance->initializeLogServices();
 
         $this->assertContainsOnlyInstancesOf(DailyLogService::class, $traitInstance->getLogServices());
@@ -65,7 +116,7 @@ class LogTraitTest extends TestCase
         config(['logging.default' => 'discord']);
         config(['logging.channels.stack.channels' => []]);
 
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
         $traitInstance->initializeLogServices();
 
         $this->assertContainsOnlyInstancesOf(DiscordLogService::class, $traitInstance->getLogServices());
@@ -80,7 +131,7 @@ class LogTraitTest extends TestCase
         config(['logging.default' => 'email']);
         config(['logging.channels.stack.channels' => []]);
 
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
         $traitInstance->initializeLogServices();
 
         $this->assertContainsOnlyInstancesOf(EmailLogService::class, $traitInstance->getLogServices());
@@ -95,7 +146,7 @@ class LogTraitTest extends TestCase
         config(['logging.default' => 'stack']);
         config(['logging.channels.stack.channels' => ['logstash', 'daily', 'discord', 'email']]);
 
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
         $traitInstance->initializeLogServices();
 
         $this->assertContainsInstanceOf(LogstashLogService::class, $traitInstance->getLogServices());
@@ -113,7 +164,7 @@ class LogTraitTest extends TestCase
         config(['logging.default' => 'stack']);
         config(['logging.channels.stack.channels' => ['logstash']]);
 
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
         $traitInstance->initializeLogServices();
 
         $this->assertContainsOnlyInstancesOf(LogstashLogService::class, $traitInstance->getLogServices());
@@ -128,7 +179,7 @@ class LogTraitTest extends TestCase
         config(['logging.default' => 'stack']);
         config(['logging.channels.stack.channels' => ['daily']]);
 
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
         $traitInstance->initializeLogServices();
 
         $this->assertContainsOnlyInstancesOf(DailyLogService::class, $traitInstance->getLogServices());
@@ -143,7 +194,7 @@ class LogTraitTest extends TestCase
         config(['logging.default' => 'stack']);
         config(['logging.channels.stack.channels' => ['discord']]);
 
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
         $traitInstance->initializeLogServices();
 
         $this->assertContainsOnlyInstancesOf(DiscordLogService::class, $traitInstance->getLogServices());
@@ -158,7 +209,7 @@ class LogTraitTest extends TestCase
         config(['logging.default' => 'stack']);
         config(['logging.channels.stack.channels' => ['email']]);
 
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
         $traitInstance->initializeLogServices();
 
         $this->assertContainsOnlyInstancesOf(EmailLogService::class, $traitInstance->getLogServices());
@@ -175,7 +226,7 @@ class LogTraitTest extends TestCase
         config(['logging.default' => 'discord']);
         config(['logging.channels.stack.channels' => ['discord']]);
 
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
 
         $this->expectException(InvalidArgumentException::class);
         $traitInstance->logException('TestCaller', new Exception('Test exception'), 'invalid_log_level');
@@ -188,7 +239,7 @@ class LogTraitTest extends TestCase
      */
     public function testLogExceptionWithValidLogLevel(): void
     {
-        $traitInstance = $this->getMockForTrait(LogTrait::class);
+        $traitInstance = $this->createTraitInstance();
         $mockLogService = Mockery::mock(LogServiceInterface::class);
         app()->instance(LogServiceInterface::class, $mockLogService);
 
