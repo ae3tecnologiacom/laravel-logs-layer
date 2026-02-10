@@ -8,7 +8,7 @@ Esta biblioteca possui duas linhas de versão principais:
 
 | Versão | PHP | Laravel | Status |
 |--------|-----|---------|--------|
-| **1.x** | ^8.1 | ^10.0 \| ^11.0 | ✅ Ativa - Recomendada |
+| **1.x** | ^8.1 \| ^8.2 \| ^8.3 | ^10.0 \| ^11.0 \| ^12.0 | ✅ Ativa - Recomendada |
 | **0.x** | ^7.4 | ^5.8 \| ^6.0 \| ^7.0 \| ^8.0 \| ^9.0 | 🧹 Manutenção - Legado |
 
 **Nota:** A versão 1.x usa o enum `Monolog\Level` para níveis de log (ex: `Level::Debug`), enquanto a versão 0.x usa as constantes `Logger::DEBUG`. Certifique-se de usar a sintaxe correta para sua versão.

@@ -4,8 +4,8 @@
   "type": "project",
   "license": "MIT",
   "require": {
-    "php": "^8.1",
-    "laravel/framework": "^10.0|^11.0",
+    "php": "^8.1|^8.2|^8.3",
+    "laravel/framework": "^10.0|^11.0|^12.0",
     "hashids/hashids": ">=4.1",
     "ext-json": "*",
     "spatie/data-transfer-object": "^3.9",
@@ -34,6 +34,6 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^10.0",
-    "orchestra/testbench": "^8.0|^9.0"
+    "orchestra/testbench": "^8.0|^9.0|^10.0"
   }
 }
