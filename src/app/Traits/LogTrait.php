@@ -69,6 +69,7 @@ trait LogTrait
     {
         $this->initializeLogServices();
 
+        $customData["server_ip"] = config("laravel-logs-layer.server_ip");
         foreach ($this->logServices as $logService) {
             $logService->$method($message, [
                 'custom_data' => $customData,
@@ -146,6 +147,8 @@ trait LogTrait
         $errorCode = $this->getRandomErrorCode();
 
         $this->initializeLogServices();
+
+        $customData['server_ip'] = config('laravel-logs-layer.server_ip');
 
         foreach ($this->logServices as $logService) {
             $logService->$log_level($caller, $exception, ExceptionContextDTO::fromArray([

@@ -15,4 +15,5 @@ return [
         'backoff' => explode(',', env('LOG_QUEUE_BACKOFF', '15'))
     ],
     'sensitive_data' => env('LOGS_LAYER_SENSITIVE_DATA', 'password,password_confirmation,token,api_token,api_key,access_token,refresh_token,authorization_code,client_secret'),
+    'server_ip' => env('SERVER_IP', '127.0.0.1')
 ];
