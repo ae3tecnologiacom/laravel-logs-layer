@@ -40,7 +40,8 @@ class RabbitMQHandler extends AbstractProcessingHandler
             config('logging.channels.rabbitmq.host'),
             config('logging.channels.rabbitmq.port'),
             config('logging.channels.rabbitmq.username'),
-            config('logging.channels.rabbitmq.password')
+            config('logging.channels.rabbitmq.password'),
+            config('logging.channels.rabbitmq.vhost', '/')
         );
         $this->channel = $this->connection->channel();
 

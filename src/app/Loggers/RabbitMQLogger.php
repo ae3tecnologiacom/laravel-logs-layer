@@ -16,7 +16,7 @@ class RabbitMQLogger extends AbstractLogger
      */
     public function validateConfig(array $config): void
     {
-        $requiredKeys = ['host', 'port', 'username', 'password'];
+        $requiredKeys = ['host', 'port', 'username', 'password', 'vhost'];
 
         foreach (array_merge($requiredKeys, $this->requiredKeys) as $key) {
             if (!array_key_exists($key, $config)) {
