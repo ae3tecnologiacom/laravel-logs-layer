@@ -76,6 +76,12 @@ class RabbitMQHandler extends AbstractProcessingHandler
      */
     protected function recordHandler(array $record)
     {
+        // Garante que 'level' seja string (nome do nível) e não número
+        // Isso mantém compatibilidade com o Logstash que espera string
+        if (isset($record['level_name'])) {
+            $record['level'] = $record['level_name'];
+        }
+        
         $data = json_encode($record);
         $msg = new AMQPMessage($data, [
             'delivery_mode' => 2
