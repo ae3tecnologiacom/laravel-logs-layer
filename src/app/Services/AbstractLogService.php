@@ -209,6 +209,9 @@ abstract class AbstractLogService implements Contracts\LogServiceInterface
      */
     protected function log(string $level, string $message, array $data): void
     {
+        // Adiciona o campo level no primeiro nível para compatibilidade com Logstash
+        $data['level'] = strtoupper($level);
+
         Log::channel($this->getLogChannel())->$level($message, $data);
     }
 }
